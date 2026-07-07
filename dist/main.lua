@@ -7170,115 +7170,171 @@ function ae.New(af,ag)
 local ah={
 __type="TabBox",
 UIElements={},
+CurrentSide="Left"
 }
 
-ah.UIElements.Main=aa.NewRoundFrame(6,"Squircle",{
+ah.UIElements.Main=ac("Frame",{
 Parent=ag.Parent,
-BackgroundTransparency=0,
+BackgroundTransparency=1,
 Size=UDim2.new(1,0,0,0),
-AutomaticSize=Enum.AutomaticSize.Y,
+AutomaticSize=Enum.AutomaticSize.Y
+})
+
+ac("UIListLayout",{
+Parent=ah.UIElements.Main,
+Padding=UDim.new(0,8),
+SortOrder=Enum.SortOrder.LayoutOrder
+})
+
+local ai=ac("Frame",{
+Parent=ah.UIElements.Main,
+BackgroundTransparency=1,
+Size=UDim2.new(1,0,0,32),
+LayoutOrder=1
+})
+
+ac("UIListLayout",{
+Parent=ai,
+FillDirection=Enum.FillDirection.Horizontal,
+Padding=UDim.new(0,8),
+SortOrder=Enum.SortOrder.LayoutOrder
+})
+
+local function CreateTabButton(aj,ak,al)
+local am=aa.NewRoundFrame(6,"Squircle",{
+Parent=ai,
+Size=UDim2.new(0.5,-4,1,0),
+LayoutOrder=al,
 ThemeTag={BackgroundColor3="ElementBackground"}
 })
 
-ah.UIElements.Container=ac("Frame",{
-Parent=ah.UIElements.Main,
+local an=ac("TextButton",{
+Parent=am,
 BackgroundTransparency=1,
-Size=UDim2.new(1,0,0,0),
-AutomaticSize=Enum.AutomaticSize.Y
+Size=UDim2.new(1,0,1,0),
+Text="",
+Font=aa.Font,
+TextSize=14
+})
+
+local ao=ac("Frame",{
+Parent=am,
+BackgroundTransparency=1,
+Size=UDim2.new(1,0,1,0)
 })
 
 ac("UIListLayout",{
-Parent=ah.UIElements.Container,
-FillDirection=Enum.FillDirection.Horizontal
+Parent=ao,
+FillDirection=Enum.FillDirection.Horizontal,
+VerticalAlignment=Enum.VerticalAlignment.Center,
+HorizontalAlignment=Enum.HorizontalAlignment.Center,
+Padding=UDim.new(0,6)
 })
 
-local function CreateColumn(ai,aj)
-local ak=ac("Frame",{
-Parent=ah.UIElements.Container,
-BackgroundTransparency=1,
-Size=UDim2.new(0.5,0,0,0),
-AutomaticSize=Enum.AutomaticSize.Y
-})
-
-local al=ac("CanvasGroup",{
-Parent=ak,
-BackgroundTransparency=1,
-Size=UDim2.new(1,0,0,0),
-AutomaticSize=Enum.AutomaticSize.Y
-})
-
-local am=ac("Frame",{
-Parent=al,
-BackgroundTransparency=1,
-Size=UDim2.new(1,-10,0,25)
-})
-
-if aj then
-local an=aa.Image(aj,aj,0,ag.Window.Folder,"TabHeader",true,true)
-an.Size=UDim2.new(0,16,0,16)
-an.Parent=am
-an.Position=UDim2.new(0,5,0.5,0)
+if ak then
+local ap=aa.Image(ak,ak,0,ag.Window.Folder,"TabHeader",true,true)
+ap.Size=UDim2.new(0,16,0,16)
+ap.Parent=ao
 end
 
 ac("TextLabel",{
-Parent=am,
+Parent=ao,
 BackgroundTransparency=1,
-Size=UDim2.new(1,-25,1,0),
-Position=UDim2.new(0,25,0,0),
-Text=ai or"",
+Size=UDim2.new(0,0,1,0),
+AutomaticSize=Enum.AutomaticSize.X,
+Text=aj or"",
 FontFace=Font.new(aa.Font,Enum.FontWeight.Medium),
 TextSize=14,
-TextXAlignment=Enum.TextXAlignment.Left,
 ThemeTag={TextColor3="Text"}
 })
 
-local an=ac("Frame",{
-Parent=al,
+return am,an
+end local
+
+aj, ak=CreateTabButton(ag.LeftTitle,ag.LeftIcon,1)local
+al, am=CreateTabButton(ag.RightTitle,ag.RightIcon,2)
+
+ah.UIElements.ContentHolder=aa.NewRoundFrame(6,"Squircle",{
+Parent=ah.UIElements.Main,
+Size=UDim2.new(1,0,0,0),
+AutomaticSize=Enum.AutomaticSize.Y,
+LayoutOrder=2,
+ThemeTag={BackgroundColor3="ElementBackground"}
+})
+
+ah.LeftCanvas=ac("CanvasGroup",{
+Parent=ah.UIElements.ContentHolder,
+BackgroundTransparency=1,
+Size=UDim2.new(1,0,0,0),
+AutomaticSize=Enum.AutomaticSize.Y,
+GroupTransparency=0,
+Visible=true
+})
+
+ah.Left=ac("Frame",{
+Parent=ah.LeftCanvas,
 BackgroundTransparency=1,
 Size=UDim2.new(1,0,0,0),
 AutomaticSize=Enum.AutomaticSize.Y
 })
+ac("UIListLayout",{Parent=ah.Left,Padding=UDim.new(0,6),HorizontalAlignment=Enum.HorizontalAlignment.Center})
+ac("UIPadding",{Parent=ah.Left,PaddingTop=UDim.new(0,6),PaddingBottom=UDim.new(0,6),PaddingLeft=UDim.new(0,6),PaddingRight=UDim.new(0,6)})
 
-ac("UIListLayout",{
-Parent=an,
-Padding=UDim.new(0,5),
-HorizontalAlignment=Enum.HorizontalAlignment.Center
+ah.RightCanvas=ac("CanvasGroup",{
+Parent=ah.UIElements.ContentHolder,
+BackgroundTransparency=1,
+Size=UDim2.new(1,0,0,0),
+AutomaticSize=Enum.AutomaticSize.Y,
+GroupTransparency=1,
+Visible=false
 })
 
-return al,an
+ah.Right=ac("Frame",{
+Parent=ah.RightCanvas,
+BackgroundTransparency=1,
+Size=UDim2.new(1,0,0,0),
+AutomaticSize=Enum.AutomaticSize.Y
+})
+ac("UIListLayout",{Parent=ah.Right,Padding=UDim.new(0,6),HorizontalAlignment=Enum.HorizontalAlignment.Center})
+ac("UIPadding",{Parent=ah.Right,PaddingTop=UDim.new(0,6),PaddingBottom=UDim.new(0,6),PaddingLeft=UDim.new(0,6),PaddingRight=UDim.new(0,6)})
+
+function ah.SwitchTo(an,ao)
+if ah.CurrentSide==ao then return end
+ah.CurrentSide=ao
+
+local ap=TweenInfo.new(0.35,Enum.EasingStyle.Quart,Enum.EasingDirection.Out)
+
+if ao=="Left"then
+ah.LeftCanvas.Visible=true
+ad:Create(ah.RightCanvas,ap,{GroupTransparency=1}):Play()
+local aq=ad:Create(ah.LeftCanvas,ap,{GroupTransparency=0})
+aq:Play()
+aq.Completed:Connect(function()
+if ah.CurrentSide=="Left"then
+ah.RightCanvas.Visible=false
 end
-
-ah.LeftCanvas,ah.Left=CreateColumn(ag.LeftTitle,ag.LeftIcon)
-ah.RightCanvas,ah.Right=CreateColumn(ag.RightTitle,ag.RightIcon)
-
-function ah.Focus(ai,aj)
-local ak=TweenInfo.new(0.4,Enum.EasingStyle.Quart,Enum.EasingDirection.Out)
-if aj=="Left"then
-ad:Create(ah.LeftCanvas,ak,{GroupTransparency=0}):Play()
-ad:Create(ah.RightCanvas,ak,{GroupTransparency=0.5}):Play()
+end)
 else
-ad:Create(ah.LeftCanvas,ak,{GroupTransparency=0.5}):Play()
-ad:Create(ah.RightCanvas,ak,{GroupTransparency=0}):Play()
-end
-end
-
-local function AttachAutoFocus(ai,aj)
-ai.DescendantAdded:Connect(function(ak)
-if ak:IsA"GuiButton"and ak.Name~="TabButton"then
-ak.MouseButton1Click:Connect(function()
-ah:Focus(aj)
-end)
+ah.RightCanvas.Visible=true
+ad:Create(ah.LeftCanvas,ap,{GroupTransparency=1}):Play()
+local aq=ad:Create(ah.RightCanvas,ap,{GroupTransparency=0})
+aq:Play()
+aq.Completed:Connect(function()
+if ah.CurrentSide=="Right"then
+ah.LeftCanvas.Visible=false
 end
 end)
 end
+end
 
-AttachAutoFocus(ah.LeftCanvas,"Left")
-AttachAutoFocus(ah.RightCanvas,"Right")
+ak.MouseButton1Click:Connect(function()ah:SwitchTo"Left"end)
+am.MouseButton1Click:Connect(function()ah:SwitchTo"Right"end)
 
 return ah.__type,ah
 end
 
 return ae end function a.I():typeof(__modImpl())local aa=a.cache.I if not aa then aa={c=__modImpl()}a.cache.I=aa end return aa.c end end do local function __modImpl()
+
 
 local aa=(cloneref or clonereference or function(aa)
 return aa
