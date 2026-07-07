@@ -7170,7 +7170,7 @@ function ae.New(af,ag)
 local ah={
 __type="TabBox",
 UIElements={},
-CurrentSide="Left"
+CurrentSide=""
 }
 
 ah.UIElements.Main=ac("Frame",{
@@ -7189,7 +7189,7 @@ SortOrder=Enum.SortOrder.LayoutOrder
 local ai=ac("Frame",{
 Parent=ah.UIElements.Main,
 BackgroundTransparency=1,
-Size=UDim2.new(1,0,0,32),
+Size=UDim2.new(1,0,0,36),
 LayoutOrder=1
 })
 
@@ -7205,6 +7205,7 @@ local am=aa.NewRoundFrame(6,"Squircle",{
 Parent=ai,
 Size=UDim2.new(0.5,-4,1,0),
 LayoutOrder=al,
+BackgroundColor3=Color3.fromRGB(32,32,32),
 ThemeTag={BackgroundColor3="ElementBackground"}
 })
 
@@ -7243,7 +7244,7 @@ BackgroundTransparency=1,
 Size=UDim2.new(0,0,1,0),
 AutomaticSize=Enum.AutomaticSize.X,
 Text=aj or"",
-FontFace=Font.new(aa.Font,Enum.FontWeight.Medium),
+FontFace=Font.new(typeof(aa.Font)=="Instance"and aa.Font.Family or aa.Font,Enum.FontWeight.Medium),
 TextSize=14,
 ThemeTag={TextColor3="Text"}
 })
@@ -7254,25 +7255,26 @@ end local
 aj, ak=CreateTabButton(ag.LeftTitle,ag.LeftIcon,1)local
 al, am=CreateTabButton(ag.RightTitle,ag.RightIcon,2)
 
-ah.UIElements.ContentHolder=aa.NewRoundFrame(6,"Squircle",{
-Parent=ah.UIElements.Main,
-Size=UDim2.new(1,0,0,0),
-AutomaticSize=Enum.AutomaticSize.Y,
-LayoutOrder=2,
-ThemeTag={BackgroundColor3="ElementBackground"}
-})
-
 ah.LeftCanvas=ac("CanvasGroup",{
-Parent=ah.UIElements.ContentHolder,
+Parent=ah.UIElements.Main,
 BackgroundTransparency=1,
 Size=UDim2.new(1,0,0,0),
 AutomaticSize=Enum.AutomaticSize.Y,
-GroupTransparency=0,
-Visible=true
+LayoutOrder=2,
+GroupTransparency=1,
+Visible=false
+})
+
+local an=aa.NewRoundFrame(6,"Squircle",{
+Parent=ah.LeftCanvas,
+Size=UDim2.new(1,0,0,0),
+AutomaticSize=Enum.AutomaticSize.Y,
+BackgroundColor3=Color3.fromRGB(28,28,28),
+ThemeTag={BackgroundColor3="ElementBackground"}
 })
 
 ah.Left=ac("Frame",{
-Parent=ah.LeftCanvas,
+Parent=an,
 BackgroundTransparency=1,
 Size=UDim2.new(1,0,0,0),
 AutomaticSize=Enum.AutomaticSize.Y
@@ -7281,16 +7283,25 @@ ac("UIListLayout",{Parent=ah.Left,Padding=UDim.new(0,6),HorizontalAlignment=Enum
 ac("UIPadding",{Parent=ah.Left,PaddingTop=UDim.new(0,6),PaddingBottom=UDim.new(0,6),PaddingLeft=UDim.new(0,6),PaddingRight=UDim.new(0,6)})
 
 ah.RightCanvas=ac("CanvasGroup",{
-Parent=ah.UIElements.ContentHolder,
+Parent=ah.UIElements.Main,
 BackgroundTransparency=1,
 Size=UDim2.new(1,0,0,0),
 AutomaticSize=Enum.AutomaticSize.Y,
+LayoutOrder=3,
 GroupTransparency=1,
 Visible=false
 })
 
-ah.Right=ac("Frame",{
+local ao=aa.NewRoundFrame(6,"Squircle",{
 Parent=ah.RightCanvas,
+Size=UDim2.new(1,0,0,0),
+AutomaticSize=Enum.AutomaticSize.Y,
+BackgroundColor3=Color3.fromRGB(28,28,28),
+ThemeTag={BackgroundColor3="ElementBackground"}
+})
+
+ah.Right=ac("Frame",{
+Parent=ao,
 BackgroundTransparency=1,
 Size=UDim2.new(1,0,0,0),
 AutomaticSize=Enum.AutomaticSize.Y
@@ -7298,32 +7309,39 @@ AutomaticSize=Enum.AutomaticSize.Y
 ac("UIListLayout",{Parent=ah.Right,Padding=UDim.new(0,6),HorizontalAlignment=Enum.HorizontalAlignment.Center})
 ac("UIPadding",{Parent=ah.Right,PaddingTop=UDim.new(0,6),PaddingBottom=UDim.new(0,6),PaddingLeft=UDim.new(0,6),PaddingRight=UDim.new(0,6)})
 
-function ah.SwitchTo(an,ao)
-if ah.CurrentSide==ao then return end
-ah.CurrentSide=ao
+function ah.SwitchTo(ap,aq)
+if ah.CurrentSide==aq and(ah.LeftCanvas.Visible or ah.RightCanvas.Visible)then
+return
+end
 
-local ap=TweenInfo.new(0.35,Enum.EasingStyle.Quart,Enum.EasingDirection.Out)
+local ar=TweenInfo.new(0.35,Enum.EasingStyle.Quart,Enum.EasingDirection.Out)
 
-if ao=="Left"then
-ah.LeftCanvas.Visible=true
-ad:Create(ah.RightCanvas,ap,{GroupTransparency=1}):Play()
-local aq=ad:Create(ah.LeftCanvas,ap,{GroupTransparency=0})
-aq:Play()
-aq.Completed:Connect(function()
+if aq=="Left"then
+if ah.RightCanvas.Visible then
+ad:Create(ah.RightCanvas,ar,{GroupTransparency=1}):Play()
+task.delay(0.35,function()
 if ah.CurrentSide=="Left"then
 ah.RightCanvas.Visible=false
 end
 end)
-else
-ah.RightCanvas.Visible=true
-ad:Create(ah.LeftCanvas,ap,{GroupTransparency=1}):Play()
-local aq=ad:Create(ah.RightCanvas,ap,{GroupTransparency=0})
-aq:Play()
-aq.Completed:Connect(function()
+end
+
+ah.LeftCanvas.Visible=true
+ad:Create(ah.LeftCanvas,ar,{GroupTransparency=0}):Play()
+ah.CurrentSide="Left"
+elseif aq=="Right"then
+if ah.LeftCanvas.Visible then
+ad:Create(ah.LeftCanvas,ar,{GroupTransparency=1}):Play()
+task.delay(0.35,function()
 if ah.CurrentSide=="Right"then
 ah.LeftCanvas.Visible=false
 end
 end)
+end
+
+ah.RightCanvas.Visible=true
+ad:Create(ah.RightCanvas,ar,{GroupTransparency=0}):Play()
+ah.CurrentSide="Right"
 end
 end
 
@@ -7334,7 +7352,6 @@ return ah.__type,ah
 end
 
 return ae end function a.I():typeof(__modImpl())local aa=a.cache.I if not aa then aa={c=__modImpl()}a.cache.I=aa end return aa.c end end do local function __modImpl()
-
 
 local aa=(cloneref or clonereference or function(aa)
 return aa

@@ -8,7 +8,7 @@ function Element:New(Config)
     local TabBox = {
         __type = "TabBox",
         UIElements = {},
-        CurrentSide = "Left"
+        CurrentSide = ""
     }
 
     TabBox.UIElements.Main = New("Frame", {
@@ -27,7 +27,7 @@ function Element:New(Config)
     local TopBar = New("Frame", {
         Parent = TabBox.UIElements.Main,
         BackgroundTransparency = 1,
-        Size = UDim2.new(1, 0, 0, 32),
+        Size = UDim2.new(1, 0, 0, 36),
         LayoutOrder = 1
     })
 
@@ -43,6 +43,7 @@ function Element:New(Config)
             Parent = TopBar,
             Size = UDim2.new(0.5, -4, 1, 0),
             LayoutOrder = Order,
+            BackgroundColor3 = Color3.fromRGB(32, 32, 32),
             ThemeTag = { BackgroundColor3 = "ElementBackground" }
         })
 
@@ -81,7 +82,7 @@ function Element:New(Config)
             Size = UDim2.new(0, 0, 1, 0),
             AutomaticSize = Enum.AutomaticSize.X,
             Text = Title or "",
-            FontFace = Font.new(Creator.Font, Enum.FontWeight.Medium),
+            FontFace = Font.new(typeof(Creator.Font) == "Instance" and Creator.Font.Family or Creator.Font, Enum.FontWeight.Medium),
             TextSize = 14,
             ThemeTag = { TextColor3 = "Text" }
         })
@@ -92,25 +93,26 @@ function Element:New(Config)
     local LeftBtnFrame, LeftClick = CreateTabButton(Config.LeftTitle, Config.LeftIcon, 1)
     local RightBtnFrame, RightClick = CreateTabButton(Config.RightTitle, Config.RightIcon, 2)
 
-    TabBox.UIElements.ContentHolder = Creator.NewRoundFrame(6, "Squircle", {
-        Parent = TabBox.UIElements.Main,
-        Size = UDim2.new(1, 0, 0, 0),
-        AutomaticSize = Enum.AutomaticSize.Y,
-        LayoutOrder = 2,
-        ThemeTag = { BackgroundColor3 = "ElementBackground" }
-    })
-
     TabBox.LeftCanvas = New("CanvasGroup", {
-        Parent = TabBox.UIElements.ContentHolder,
+        Parent = TabBox.UIElements.Main,
         BackgroundTransparency = 1,
         Size = UDim2.new(1, 0, 0, 0),
         AutomaticSize = Enum.AutomaticSize.Y,
-        GroupTransparency = 0,
-        Visible = true
+        LayoutOrder = 2,
+        GroupTransparency = 1,
+        Visible = false
+    })
+
+    local LeftBox = Creator.NewRoundFrame(6, "Squircle", {
+        Parent = TabBox.LeftCanvas,
+        Size = UDim2.new(1, 0, 0, 0),
+        AutomaticSize = Enum.AutomaticSize.Y,
+        BackgroundColor3 = Color3.fromRGB(28, 28, 28),
+        ThemeTag = { BackgroundColor3 = "ElementBackground" }
     })
 
     TabBox.Left = New("Frame", {
-        Parent = TabBox.LeftCanvas,
+        Parent = LeftBox,
         BackgroundTransparency = 1,
         Size = UDim2.new(1, 0, 0, 0),
         AutomaticSize = Enum.AutomaticSize.Y
@@ -119,16 +121,25 @@ function Element:New(Config)
     New("UIPadding", { Parent = TabBox.Left, PaddingTop = UDim.new(0, 6), PaddingBottom = UDim.new(0, 6), PaddingLeft = UDim.new(0, 6), PaddingRight = UDim.new(0, 6) })
 
     TabBox.RightCanvas = New("CanvasGroup", {
-        Parent = TabBox.UIElements.ContentHolder,
+        Parent = TabBox.UIElements.Main,
         BackgroundTransparency = 1,
         Size = UDim2.new(1, 0, 0, 0),
         AutomaticSize = Enum.AutomaticSize.Y,
+        LayoutOrder = 3,
         GroupTransparency = 1,
         Visible = false
     })
 
-    TabBox.Right = New("Frame", {
+    local RightBox = Creator.NewRoundFrame(6, "Squircle", {
         Parent = TabBox.RightCanvas,
+        Size = UDim2.new(1, 0, 0, 0),
+        AutomaticSize = Enum.AutomaticSize.Y,
+        BackgroundColor3 = Color3.fromRGB(28, 28, 28),
+        ThemeTag = { BackgroundColor3 = "ElementBackground" }
+    })
+
+    TabBox.Right = New("Frame", {
+        Parent = RightBox,
         BackgroundTransparency = 1,
         Size = UDim2.new(1, 0, 0, 0),
         AutomaticSize = Enum.AutomaticSize.Y
@@ -137,31 +148,38 @@ function Element:New(Config)
     New("UIPadding", { Parent = TabBox.Right, PaddingTop = UDim.new(0, 6), PaddingBottom = UDim.new(0, 6), PaddingLeft = UDim.new(0, 6), PaddingRight = UDim.new(0, 6) })
 
     function TabBox:SwitchTo(Side)
-        if TabBox.CurrentSide == Side then return end
-        TabBox.CurrentSide = Side
+        if TabBox.CurrentSide == Side and (TabBox.LeftCanvas.Visible or TabBox.RightCanvas.Visible) then 
+            return 
+        end
 
         local Info = TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
 
         if Side == "Left" then
+            if TabBox.RightCanvas.Visible then
+                TweenService:Create(TabBox.RightCanvas, Info, {GroupTransparency = 1}):Play()
+                task.delay(0.35, function()
+                    if TabBox.CurrentSide == "Left" then
+                        TabBox.RightCanvas.Visible = false
+                    end
+                end)
+            end
+            
             TabBox.LeftCanvas.Visible = true
-            TweenService:Create(TabBox.RightCanvas, Info, {GroupTransparency = 1}):Play()
-            local Tween = TweenService:Create(TabBox.LeftCanvas, Info, {GroupTransparency = 0})
-            Tween:Play()
-            Tween.Completed:Connect(function()
-                if TabBox.CurrentSide == "Left" then
-                    TabBox.RightCanvas.Visible = false
-                end
-            end)
-        else
+            TweenService:Create(TabBox.LeftCanvas, Info, {GroupTransparency = 0}):Play()
+            TabBox.CurrentSide = "Left"
+        elseif Side == "Right" then
+            if TabBox.LeftCanvas.Visible then
+                TweenService:Create(TabBox.LeftCanvas, Info, {GroupTransparency = 1}):Play()
+                task.delay(0.35, function()
+                    if TabBox.CurrentSide == "Right" then
+                        TabBox.LeftCanvas.Visible = false
+                    end
+                end)
+            end
+            
             TabBox.RightCanvas.Visible = true
-            TweenService:Create(TabBox.LeftCanvas, Info, {GroupTransparency = 1}):Play()
-            local Tween = TweenService:Create(TabBox.RightCanvas, Info, {GroupTransparency = 0})
-            Tween:Play()
-            Tween.Completed:Connect(function()
-                if TabBox.CurrentSide == "Right" then
-                    TabBox.LeftCanvas.Visible = false
-                end
-            end)
+            TweenService:Create(TabBox.RightCanvas, Info, {GroupTransparency = 0}):Play()
+            TabBox.CurrentSide = "Right"
         end
     end
 
@@ -172,4 +190,3 @@ function Element:New(Config)
 end
 
 return Element
-
