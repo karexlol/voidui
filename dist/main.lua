@@ -7166,7 +7166,7 @@ local ad=game:GetService"TweenService"
 
 local ae={}
 
-function ae.TabBox(af,ag)
+function ae.New(af,ag)
 local ah={
 __type="TabBox",
 UIElements={},

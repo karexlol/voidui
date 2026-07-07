@@ -4,7 +4,7 @@ local TweenService = game:GetService("TweenService")
 
 local Element = {}
 
-function Element:TabBox(Config)
+function Element:New(Config)
     local TabBox = {
         __type = "TabBox",
         UIElements = {},
