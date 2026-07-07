@@ -64,7 +64,7 @@ function Element:New(Config)
             Size = UDim2.new(1, -25, 1, 0),
             Position = UDim2.new(0, 25, 0, 0),
             Text = Title or "",
-            Font = Creator.Font,
+            FontFace = Font.new(Creator.Font, Enum.FontWeight.Medium),
             TextSize = 14,
             TextXAlignment = Enum.TextXAlignment.Left,
             ThemeTag = { TextColor3 = "Text" }

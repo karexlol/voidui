@@ -7226,7 +7226,7 @@ BackgroundTransparency=1,
 Size=UDim2.new(1,-25,1,0),
 Position=UDim2.new(0,25,0,0),
 Text=ai or"",
-Font=aa.Font,
+FontFace=Font.new(aa.Font,Enum.FontWeight.Medium),
 TextSize=14,
 TextXAlignment=Enum.TextXAlignment.Left,
 ThemeTag={TextColor3="Text"}
