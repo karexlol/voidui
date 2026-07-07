@@ -10,7 +10,7 @@ function Element:New(Config)
         UIElements = {},
     }
 
-    TabBox.UIElements.Main = Creator:NewRoundFrame(6, "Squircle", {
+    TabBox.UIElements.Main = Creator.NewRoundFrame(6, "Squircle", {
         Parent = Config.Parent,
         BackgroundTransparency = 0,
         Size = UDim2.new(1, 0, 0, 0),

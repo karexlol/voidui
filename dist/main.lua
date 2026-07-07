@@ -7172,7 +7172,7 @@ __type="TabBox",
 UIElements={},
 }
 
-ah.UIElements.Main=aa:NewRoundFrame(6,"Squircle",{
+ah.UIElements.Main=aa.NewRoundFrame(6,"Squircle",{
 Parent=ag.Parent,
 BackgroundTransparency=0,
 Size=UDim2.new(1,0,0,0),
