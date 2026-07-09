@@ -7178,9 +7178,11 @@ __type="TabBox",
 }
 
 local aj=a.C()(ah)
+local ak=aj.UIElements.Container.BackgroundColor3
+aj.UIElements.Container.BackgroundTransparency=1
 
-local ak=ad("Frame",{
-Size=UDim2.new(1,0,0,38),
+local al=ad("Frame",{
+Size=UDim2.new(1,0,0,30),
 BackgroundTransparency=1,
 Parent=aj.UIElements.Container,
 },{
@@ -7191,51 +7193,48 @@ SortOrder="LayoutOrder",
 }),
 })
 
-local al={}
+local am={}
 
-local function AddIcon(am,an)
-if not an then
+local function AddIcon(an,ao)
+if not ao then
 return
 end
 
-local ao=typeof(an)=="string"and an:match"^rbxassetid://"~=nil
+local ap=typeof(ao)=="string"and ao:match"^rbxassetid://"~=nil
 
-if ao then
+if ap then
 ad("ImageLabel",{
-Image=an,
+Image=ao,
 BackgroundTransparency=1,
 Size=UDim2.new(0,16,0,16),
 LayoutOrder=1,
-Parent=am,
+Parent=an,
 ThemeTag={
 ImageColor3="Text",
 },
 })
 else
-local ap=ac.Image(an,an,0,ah.Window.Folder,"TabBox",true,false)
-ap.Size=UDim2.new(0,16,0,16)
-ap.LayoutOrder=1
-ap.Parent=am
-aj:Colorize(ap.ImageLabel,"ImageColor3")
+local aq=ac.Image(ao,ao,0,ah.Window.Folder,"TabBox",true,false)
+aq.Size=UDim2.new(0,16,0,16)
+aq.LayoutOrder=1
+aq.Parent=an
+aj:Colorize(aq.ImageLabel,"ImageColor3")
 end
 end
 
-local function CreateBox(am,an,ao)
-local ap=ad("TextButton",{
+local function CreateBox(an,ao,ap)
+local aq=ad("TextButton",{
 Text="",
 AutoButtonColor=false,
-Size=UDim2.new(0.5,-4,0,38),
-LayoutOrder=am,
+Size=UDim2.new(0.5,-4,0,30),
+LayoutOrder=an,
 ClipsDescendants=true,
-ThemeTag={
-BackgroundColor3="TabBox",
-},
-Parent=ak,
+Parent=al,
 },{
 ad("UICorner",{CornerRadius=UDim.new(0,ah.Window.ElementConfig.UICorner)}),
 ad("UIPadding",{
-PaddingLeft=UDim.new(0,10),
-PaddingRight=UDim.new(0,10),
+PaddingLeft=UDim.new(0,8),
+PaddingRight=UDim.new(0,8),
 }),
 ad("UIListLayout",{
 FillDirection="Horizontal",
@@ -7245,20 +7244,22 @@ SortOrder="LayoutOrder",
 }),
 })
 
-local aq=ad("Frame",{
+aq.BackgroundColor3=ak
+
+local ar=ad("Frame",{
 Size=UDim2.new(1,0,1,0),
 BackgroundColor3=Color3.fromRGB(255,255,255),
 BackgroundTransparency=1,
 ZIndex=0,
-Parent=ap,
+Parent=aq,
 },{
 ad("UICorner",{CornerRadius=UDim.new(0,ah.Window.ElementConfig.UICorner)}),
 })
 
-AddIcon(ap,ao)
+AddIcon(aq,ap)
 
 ad("TextLabel",{
-Text=an,
+Text=ao,
 BackgroundTransparency=1,
 FontFace=Font.new(ac.Font,Enum.FontWeight.Medium),
 TextSize=13,
@@ -7268,16 +7269,16 @@ LayoutOrder=2,
 ThemeTag={
 TextColor3="Text",
 },
-Parent=ap,
+Parent=aq,
 })
 
-local ar=ad("CanvasGroup",{
+
+local as=ad("Frame",{
 Size=UDim2.new(1,0,0,0),
 AutomaticSize="Y",
 BackgroundTransparency=1,
-GroupTransparency=1,
 Visible=false,
-LayoutOrder=am,
+LayoutOrder=an,
 Parent=aj.UIElements.Container,
 },{
 ad("UIListLayout",{
@@ -7287,64 +7288,49 @@ SortOrder="LayoutOrder",
 }),
 })
 
-al[am]={Button=ap,Overlay=aq,Content=ar}
+am[an]={Button=aq,Overlay=ar,Content=as}
 
-return ap,ar
+return aq,as
 end
 
-local am
+local an
 
-local function SetActive(an)
-if am==an then
+local function SetActive(ao)
+if an==ao then
 return
 end
-am=an
+an=ao
 
-for ao,ap in next,al do
-local aq=(ao==an)
+for ap,aq in next,am do
+local ar=(ap==ao)
 
-aa:Create(ap.Overlay,af,{
-BackgroundTransparency=aq and 0.85 or 1,
+aa:Create(aq.Overlay,af,{
+BackgroundTransparency=ar and 0.85 or 1,
 }):Play()
 
-if aq then
-ap.Content.Visible=true
-end
-
-aa:Create(ap.Content,af,{
-GroupTransparency=aq and 0 or 1,
-}):Play()
-
-if not aq then
-task.delay(af.Time,function()
-if am~=ao then
-ap.Content.Visible=false
-end
-end)
-end
+aq.Content.Visible=ar
 end
 end
 
-local an,ao=CreateBox(1,ah.LeftTitle or"Left",ah.LeftIcon)
-local ap,aq=CreateBox(2,ah.RightTitle or"Right",ah.RightIcon)
+local ao,ap=CreateBox(1,ah.LeftTitle or"Left",ah.LeftIcon)
+local aq,ar=CreateBox(2,ah.RightTitle or"Right",ah.RightIcon)
 
-ac.AddSignal(an.MouseButton1Click,function()
+ac.AddSignal(ao.MouseButton1Click,function()
 SetActive(1)
 end)
 
-ac.AddSignal(ap.MouseButton1Click,function()
+ac.AddSignal(aq.MouseButton1Click,function()
 SetActive(2)
 end)
 
-SetActive(1)
-
-ai.Left=ao
-ai.Right=aq
+ai.Left=ap
+ai.Right=ar
 
 return ai.__type,ai
 end
 
 return ae end function a.I():typeof(__modImpl())local aa=a.cache.I if not aa then aa={c=__modImpl()}a.cache.I=aa end return aa.c end end do local function __modImpl()
+
 
 local aa=(cloneref or clonereference or function(aa)
 return aa

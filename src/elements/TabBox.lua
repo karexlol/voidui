@@ -16,9 +16,11 @@ function Element:New(ElementConfig)
 	}
 
 	local TabBoxFrame = require("../components/window/Element")(ElementConfig)
+	local ContainerColor = TabBoxFrame.UIElements.Container.BackgroundColor3
+	TabBoxFrame.UIElements.Container.BackgroundTransparency = 1
 
 	local BoxesHolder = New("Frame", {
-		Size = UDim2.new(1, 0, 0, 38),
+		Size = UDim2.new(1, 0, 0, 30),
 		BackgroundTransparency = 1,
 		Parent = TabBoxFrame.UIElements.Container,
 	}, {
@@ -62,18 +64,15 @@ function Element:New(ElementConfig)
 		local Box = New("TextButton", {
 			Text = "",
 			AutoButtonColor = false,
-			Size = UDim2.new(0.5, -4, 0, 38),
+			Size = UDim2.new(0.5, -4, 0, 30),
 			LayoutOrder = Index,
 			ClipsDescendants = true,
-			ThemeTag = {
-				BackgroundColor3 = "TabBox",
-			},
 			Parent = BoxesHolder,
 		}, {
 			New("UICorner", { CornerRadius = UDim.new(0, ElementConfig.Window.ElementConfig.UICorner) }),
 			New("UIPadding", {
-				PaddingLeft = UDim.new(0, 10),
-				PaddingRight = UDim.new(0, 10),
+				PaddingLeft = UDim.new(0, 8),
+				PaddingRight = UDim.new(0, 8),
 			}),
 			New("UIListLayout", {
 				FillDirection = "Horizontal",
@@ -82,6 +81,8 @@ function Element:New(ElementConfig)
 				SortOrder = "LayoutOrder",
 			}),
 		})
+
+		Box.BackgroundColor3 = ContainerColor
 
 		local Overlay = New("Frame", {
 			Size = UDim2.new(1, 0, 1, 0),
@@ -109,11 +110,11 @@ function Element:New(ElementConfig)
 			Parent = Box,
 		})
 
-		local Content = New("CanvasGroup", {
+		-- İçerik: box'a tıklanmadan hep gizli kalır, düz Frame (CanvasGroup değil)
+		local Content = New("Frame", {
 			Size = UDim2.new(1, 0, 0, 0),
 			AutomaticSize = "Y",
 			BackgroundTransparency = 1,
-			GroupTransparency = 1,
 			Visible = false,
 			LayoutOrder = Index,
 			Parent = TabBoxFrame.UIElements.Container,
@@ -145,21 +146,7 @@ function Element:New(ElementConfig)
 				BackgroundTransparency = IsActive and 0.85 or 1,
 			}):Play()
 
-			if IsActive then
-				Data.Content.Visible = true
-			end
-
-			TweenService:Create(Data.Content, FadeInfo, {
-				GroupTransparency = IsActive and 0 or 1,
-			}):Play()
-
-			if not IsActive then
-				task.delay(FadeInfo.Time, function()
-					if ActiveIndex ~= i then
-						Data.Content.Visible = false
-					end
-				end)
-			end
+			Data.Content.Visible = IsActive
 		end
 	end
 
@@ -174,8 +161,6 @@ function Element:New(ElementConfig)
 		SetActive(2)
 	end)
 
-	SetActive(1)
-
 	TabBoxModule.Left = LeftContent
 	TabBoxModule.Right = RightContent
 
@@ -183,3 +168,4 @@ function Element:New(ElementConfig)
 end
 
 return Element
+
