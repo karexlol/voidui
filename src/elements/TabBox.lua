@@ -2,6 +2,7 @@ local TweenService = game:GetService("TweenService")
 
 local Creator = require("../modules/Creator")
 local New = Creator.New
+local NewRoundFrame = Creator.NewRoundFrame
 
 local Element = {}
 
@@ -16,8 +17,10 @@ function Element:New(ElementConfig)
 	}
 
 	local TabBoxFrame = require("../components/window/Element")(ElementConfig)
-	local ContainerColor = TabBoxFrame.UIElements.Container.BackgroundColor3
-	TabBoxFrame.UIElements.Container.BackgroundTransparency = 1
+
+	TabBoxFrame.UIElements.Main.ImageTransparency = 1
+
+	local UICorner = ElementConfig.Window.ElementConfig.UICorner
 
 	local BoxesHolder = New("Frame", {
 		Size = UDim2.new(1, 0, 0, 30),
@@ -61,15 +64,16 @@ function Element:New(ElementConfig)
 	end
 
 	local function CreateBox(Index, Title, Icon)
-		local Box = New("TextButton", {
-			Text = "",
-			AutoButtonColor = false,
+		local Box = NewRoundFrame(UICorner, "Squircle", {
 			Size = UDim2.new(0.5, -4, 0, 30),
 			LayoutOrder = Index,
 			ClipsDescendants = true,
+			ThemeTag = {
+				ImageColor3 = "ElementBackground",
+				ImageTransparency = "ElementBackgroundTransparency",
+			},
 			Parent = BoxesHolder,
 		}, {
-			New("UICorner", { CornerRadius = UDim.new(0, ElementConfig.Window.ElementConfig.UICorner) }),
 			New("UIPadding", {
 				PaddingLeft = UDim.new(0, 8),
 				PaddingRight = UDim.new(0, 8),
@@ -80,19 +84,15 @@ function Element:New(ElementConfig)
 				Padding = UDim.new(0, 6),
 				SortOrder = "LayoutOrder",
 			}),
-		})
+		}, true, true)
 
-		Box.BackgroundColor3 = ContainerColor
-
-		local Overlay = New("Frame", {
+		local Overlay = NewRoundFrame(UICorner, "Squircle", {
 			Size = UDim2.new(1, 0, 1, 0),
-			BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-			BackgroundTransparency = 1,
-			ZIndex = 0,
+			ImageColor3 = Color3.new(1, 1, 1),
+			ImageTransparency = 1,
+			Active = false,
 			Parent = Box,
-		}, {
-			New("UICorner", { CornerRadius = UDim.new(0, ElementConfig.Window.ElementConfig.UICorner) }),
-		})
+		}, {}, nil, true)
 
 		AddIcon(Box, Icon)
 
@@ -110,7 +110,6 @@ function Element:New(ElementConfig)
 			Parent = Box,
 		})
 
-		-- İçerik: box'a tıklanmadan hep gizli kalır, düz Frame (CanvasGroup değil)
 		local Content = New("Frame", {
 			Size = UDim2.new(1, 0, 0, 0),
 			AutomaticSize = "Y",
@@ -143,7 +142,7 @@ function Element:New(ElementConfig)
 			local IsActive = (i == Index)
 
 			TweenService:Create(Data.Overlay, FadeInfo, {
-				BackgroundTransparency = IsActive and 0.85 or 1,
+				ImageTransparency = IsActive and 0.85 or 1,
 			}):Play()
 
 			Data.Content.Visible = IsActive
@@ -168,4 +167,3 @@ function Element:New(ElementConfig)
 end
 
 return Element
-

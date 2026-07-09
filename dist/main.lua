@@ -7164,27 +7164,30 @@ local aa=game:GetService"TweenService"
 
 local ac=a.d()
 local ad=ac.New
+local ae=ac.NewRoundFrame
 
-local ae={}
+local af={}
 
-local af=TweenInfo.new(0.28,Enum.EasingStyle.Quint,Enum.EasingDirection.Out)
+local ag=TweenInfo.new(0.28,Enum.EasingStyle.Quint,Enum.EasingDirection.Out)
 
-function ae.New(ag,ah)
-ah.ParentConfig=ah
-ah.TextOffset=0
+function af.New(ah,ai)
+ai.ParentConfig=ai
+ai.TextOffset=0
 
-local ai={
+local aj={
 __type="TabBox",
 }
 
-local aj=a.C()(ah)
-local ak=aj.UIElements.Container.BackgroundColor3
-aj.UIElements.Container.BackgroundTransparency=1
+local ak=a.C()(ai)
 
-local al=ad("Frame",{
+ak.UIElements.Main.ImageTransparency=1
+
+local al=ai.Window.ElementConfig.UICorner
+
+local am=ad("Frame",{
 Size=UDim2.new(1,0,0,30),
 BackgroundTransparency=1,
-Parent=aj.UIElements.Container,
+Parent=ak.UIElements.Container,
 },{
 ad("UIListLayout",{
 FillDirection="Horizontal",
@@ -7193,45 +7196,46 @@ SortOrder="LayoutOrder",
 }),
 })
 
-local am={}
+local an={}
 
-local function AddIcon(an,ao)
-if not ao then
+local function AddIcon(ao,ap)
+if not ap then
 return
 end
 
-local ap=typeof(ao)=="string"and ao:match"^rbxassetid://"~=nil
+local aq=typeof(ap)=="string"and ap:match"^rbxassetid://"~=nil
 
-if ap then
+if aq then
 ad("ImageLabel",{
-Image=ao,
+Image=ap,
 BackgroundTransparency=1,
 Size=UDim2.new(0,16,0,16),
 LayoutOrder=1,
-Parent=an,
+Parent=ao,
 ThemeTag={
 ImageColor3="Text",
 },
 })
 else
-local aq=ac.Image(ao,ao,0,ah.Window.Folder,"TabBox",true,false)
-aq.Size=UDim2.new(0,16,0,16)
-aq.LayoutOrder=1
-aq.Parent=an
-aj:Colorize(aq.ImageLabel,"ImageColor3")
+local ar=ac.Image(ap,ap,0,ai.Window.Folder,"TabBox",true,false)
+ar.Size=UDim2.new(0,16,0,16)
+ar.LayoutOrder=1
+ar.Parent=ao
+ak:Colorize(ar.ImageLabel,"ImageColor3")
 end
 end
 
-local function CreateBox(an,ao,ap)
-local aq=ad("TextButton",{
-Text="",
-AutoButtonColor=false,
+local function CreateBox(ao,ap,aq)
+local ar=ae(al,"Squircle",{
 Size=UDim2.new(0.5,-4,0,30),
-LayoutOrder=an,
+LayoutOrder=ao,
 ClipsDescendants=true,
-Parent=al,
+ThemeTag={
+ImageColor3="ElementBackground",
+ImageTransparency="ElementBackgroundTransparency",
+},
+Parent=am,
 },{
-ad("UICorner",{CornerRadius=UDim.new(0,ah.Window.ElementConfig.UICorner)}),
 ad("UIPadding",{
 PaddingLeft=UDim.new(0,8),
 PaddingRight=UDim.new(0,8),
@@ -7242,24 +7246,20 @@ VerticalAlignment="Center",
 Padding=UDim.new(0,6),
 SortOrder="LayoutOrder",
 }),
-})
+},true,true)
 
-aq.BackgroundColor3=ak
-
-local ar=ad("Frame",{
+local as=ae(al,"Squircle",{
 Size=UDim2.new(1,0,1,0),
-BackgroundColor3=Color3.fromRGB(255,255,255),
-BackgroundTransparency=1,
-ZIndex=0,
-Parent=aq,
-},{
-ad("UICorner",{CornerRadius=UDim.new(0,ah.Window.ElementConfig.UICorner)}),
-})
+ImageColor3=Color3.new(1,1,1),
+ImageTransparency=1,
+Active=false,
+Parent=ar,
+},{},nil,true)
 
-AddIcon(aq,ap)
+AddIcon(ar,aq)
 
 ad("TextLabel",{
-Text=ao,
+Text=ap,
 BackgroundTransparency=1,
 FontFace=Font.new(ac.Font,Enum.FontWeight.Medium),
 TextSize=13,
@@ -7269,17 +7269,16 @@ LayoutOrder=2,
 ThemeTag={
 TextColor3="Text",
 },
-Parent=aq,
+Parent=ar,
 })
 
-
-local as=ad("Frame",{
+local at=ad("Frame",{
 Size=UDim2.new(1,0,0,0),
 AutomaticSize="Y",
 BackgroundTransparency=1,
 Visible=false,
-LayoutOrder=an,
-Parent=aj.UIElements.Container,
+LayoutOrder=ao,
+Parent=ak.UIElements.Container,
 },{
 ad("UIListLayout",{
 Padding=UDim.new(0,8),
@@ -7288,49 +7287,48 @@ SortOrder="LayoutOrder",
 }),
 })
 
-am[an]={Button=aq,Overlay=ar,Content=as}
+an[ao]={Button=ar,Overlay=as,Content=at}
 
-return aq,as
+return ar,at
 end
 
-local an
+local ao
 
-local function SetActive(ao)
-if an==ao then
+local function SetActive(ap)
+if ao==ap then
 return
 end
-an=ao
+ao=ap
 
-for ap,aq in next,am do
-local ar=(ap==ao)
+for aq,ar in next,an do
+local as=(aq==ap)
 
-aa:Create(aq.Overlay,af,{
-BackgroundTransparency=ar and 0.85 or 1,
+aa:Create(ar.Overlay,ag,{
+ImageTransparency=as and 0.85 or 1,
 }):Play()
 
-aq.Content.Visible=ar
+ar.Content.Visible=as
 end
 end
 
-local ao,ap=CreateBox(1,ah.LeftTitle or"Left",ah.LeftIcon)
-local aq,ar=CreateBox(2,ah.RightTitle or"Right",ah.RightIcon)
+local ap,aq=CreateBox(1,ai.LeftTitle or"Left",ai.LeftIcon)
+local ar,as=CreateBox(2,ai.RightTitle or"Right",ai.RightIcon)
 
-ac.AddSignal(ao.MouseButton1Click,function()
+ac.AddSignal(ap.MouseButton1Click,function()
 SetActive(1)
 end)
 
-ac.AddSignal(aq.MouseButton1Click,function()
+ac.AddSignal(ar.MouseButton1Click,function()
 SetActive(2)
 end)
 
-ai.Left=ap
-ai.Right=ar
+aj.Left=aq
+aj.Right=as
 
-return ai.__type,ai
+return aj.__type,aj
 end
 
-return ae end function a.I():typeof(__modImpl())local aa=a.cache.I if not aa then aa={c=__modImpl()}a.cache.I=aa end return aa.c end end do local function __modImpl()
-
+return af end function a.I():typeof(__modImpl())local aa=a.cache.I if not aa then aa={c=__modImpl()}a.cache.I=aa end return aa.c end end do local function __modImpl()
 
 local aa=(cloneref or clonereference or function(aa)
 return aa
