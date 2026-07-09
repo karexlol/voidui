@@ -4,7 +4,7 @@
     | |/ |/ / / _ \/ _  / /_/ // /  
     |__/|__/_/_//_/\_,_/\____/___/
     
-    v1.6.65  |  2026-07-07  |  Roblox UI Library for scripts
+    v1.6.65  |  2026-07-09  |  Roblox UI Library for scripts
     
     To view the source code, see the `src/` folder on the official GitHub repository.
     
@@ -7160,199 +7160,6 @@ end
 
 return af end function a.H():typeof(__modImpl())local aa=a.cache.H if not aa then aa={c=__modImpl()}a.cache.H=aa end return aa.c end end do local function __modImpl()
 
-local aa=a.d()
-local ac=aa.New
-local ad=game:GetService"TweenService"
-
-local ae={}
-
-function ae.New(af,ag)
-local ah={
-__type="TabBox",
-UIElements={},
-CurrentSide=""
-}
-
-ah.UIElements.Main=ac("Frame",{
-Parent=ag.Parent,
-BackgroundTransparency=1,
-Size=UDim2.new(1,0,0,0),
-AutomaticSize=Enum.AutomaticSize.Y
-})
-
-ac("UIListLayout",{
-Parent=ah.UIElements.Main,
-Padding=UDim.new(0,8),
-SortOrder=Enum.SortOrder.LayoutOrder
-})
-
-local ai=ac("Frame",{
-Parent=ah.UIElements.Main,
-BackgroundTransparency=1,
-Size=UDim2.new(1,0,0,36),
-LayoutOrder=1
-})
-
-ac("UIListLayout",{
-Parent=ai,
-FillDirection=Enum.FillDirection.Horizontal,
-Padding=UDim.new(0,8),
-SortOrder=Enum.SortOrder.LayoutOrder
-})
-
-local function CreateTabButton(aj,ak,al)
-local am=aa.NewRoundFrame(6,"Squircle",{
-Parent=ai,
-Size=UDim2.new(0.5,-4,1,0),
-LayoutOrder=al,
-BackgroundColor3=Color3.fromRGB(32,32,32),
-ThemeTag={BackgroundColor3="ElementBackground"}
-})
-
-local an=ac("TextButton",{
-Parent=am,
-BackgroundTransparency=1,
-Size=UDim2.new(1,0,1,0),
-Text="",
-Font=aa.Font,
-TextSize=14
-})
-
-local ao=ac("Frame",{
-Parent=am,
-BackgroundTransparency=1,
-Size=UDim2.new(1,0,1,0)
-})
-
-ac("UIListLayout",{
-Parent=ao,
-FillDirection=Enum.FillDirection.Horizontal,
-VerticalAlignment=Enum.VerticalAlignment.Center,
-HorizontalAlignment=Enum.HorizontalAlignment.Center,
-Padding=UDim.new(0,6)
-})
-
-if ak then
-local ap=aa.Image(ak,ak,0,ag.Window.Folder,"TabHeader",true,true)
-ap.Size=UDim2.new(0,16,0,16)
-ap.Parent=ao
-end
-
-ac("TextLabel",{
-Parent=ao,
-BackgroundTransparency=1,
-Size=UDim2.new(0,0,1,0),
-AutomaticSize=Enum.AutomaticSize.X,
-Text=aj or"",
-FontFace=Font.new(typeof(aa.Font)=="Instance"and aa.Font.Family or aa.Font,Enum.FontWeight.Medium),
-TextSize=14,
-ThemeTag={TextColor3="Text"}
-})
-
-return am,an
-end local
-
-aj, ak=CreateTabButton(ag.LeftTitle,ag.LeftIcon,1)local
-al, am=CreateTabButton(ag.RightTitle,ag.RightIcon,2)
-
-ah.LeftCanvas=ac("CanvasGroup",{
-Parent=ah.UIElements.Main,
-BackgroundTransparency=1,
-Size=UDim2.new(1,0,0,0),
-AutomaticSize=Enum.AutomaticSize.Y,
-LayoutOrder=2,
-GroupTransparency=1,
-Visible=false
-})
-
-local an=aa.NewRoundFrame(6,"Squircle",{
-Parent=ah.LeftCanvas,
-Size=UDim2.new(1,0,0,0),
-AutomaticSize=Enum.AutomaticSize.Y,
-BackgroundColor3=Color3.fromRGB(28,28,28),
-ThemeTag={BackgroundColor3="ElementBackground"}
-})
-
-ah.Left=ac("Frame",{
-Parent=an,
-BackgroundTransparency=1,
-Size=UDim2.new(1,0,0,0),
-AutomaticSize=Enum.AutomaticSize.Y
-})
-ac("UIListLayout",{Parent=ah.Left,Padding=UDim.new(0,6),HorizontalAlignment=Enum.HorizontalAlignment.Center})
-ac("UIPadding",{Parent=ah.Left,PaddingTop=UDim.new(0,6),PaddingBottom=UDim.new(0,6),PaddingLeft=UDim.new(0,6),PaddingRight=UDim.new(0,6)})
-
-ah.RightCanvas=ac("CanvasGroup",{
-Parent=ah.UIElements.Main,
-BackgroundTransparency=1,
-Size=UDim2.new(1,0,0,0),
-AutomaticSize=Enum.AutomaticSize.Y,
-LayoutOrder=3,
-GroupTransparency=1,
-Visible=false
-})
-
-local ao=aa.NewRoundFrame(6,"Squircle",{
-Parent=ah.RightCanvas,
-Size=UDim2.new(1,0,0,0),
-AutomaticSize=Enum.AutomaticSize.Y,
-BackgroundColor3=Color3.fromRGB(28,28,28),
-ThemeTag={BackgroundColor3="ElementBackground"}
-})
-
-ah.Right=ac("Frame",{
-Parent=ao,
-BackgroundTransparency=1,
-Size=UDim2.new(1,0,0,0),
-AutomaticSize=Enum.AutomaticSize.Y
-})
-ac("UIListLayout",{Parent=ah.Right,Padding=UDim.new(0,6),HorizontalAlignment=Enum.HorizontalAlignment.Center})
-ac("UIPadding",{Parent=ah.Right,PaddingTop=UDim.new(0,6),PaddingBottom=UDim.new(0,6),PaddingLeft=UDim.new(0,6),PaddingRight=UDim.new(0,6)})
-
-function ah.SwitchTo(ap,aq)
-if ah.CurrentSide==aq and(ah.LeftCanvas.Visible or ah.RightCanvas.Visible)then
-return
-end
-
-local ar=TweenInfo.new(0.35,Enum.EasingStyle.Quart,Enum.EasingDirection.Out)
-
-if aq=="Left"then
-if ah.RightCanvas.Visible then
-ad:Create(ah.RightCanvas,ar,{GroupTransparency=1}):Play()
-task.delay(0.35,function()
-if ah.CurrentSide=="Left"then
-ah.RightCanvas.Visible=false
-end
-end)
-end
-
-ah.LeftCanvas.Visible=true
-ad:Create(ah.LeftCanvas,ar,{GroupTransparency=0}):Play()
-ah.CurrentSide="Left"
-elseif aq=="Right"then
-if ah.LeftCanvas.Visible then
-ad:Create(ah.LeftCanvas,ar,{GroupTransparency=1}):Play()
-task.delay(0.35,function()
-if ah.CurrentSide=="Right"then
-ah.LeftCanvas.Visible=false
-end
-end)
-end
-
-ah.RightCanvas.Visible=true
-ad:Create(ah.RightCanvas,ar,{GroupTransparency=0}):Play()
-ah.CurrentSide="Right"
-end
-end
-
-ak.MouseButton1Click:Connect(function()ah:SwitchTo"Left"end)
-am.MouseButton1Click:Connect(function()ah:SwitchTo"Right"end)
-
-return ah.__type,ah
-end
-
-return ae end function a.I():typeof(__modImpl())local aa=a.cache.I if not aa then aa={c=__modImpl()}a.cache.I=aa end return aa.c end end do local function __modImpl()
-
 local aa=(cloneref or clonereference or function(aa)
 return aa
 end)
@@ -7776,7 +7583,7 @@ end)
 return al.__type,al
 end
 
-return ah end function a.J():typeof(__modImpl())local aa=a.cache.J if not aa then aa={c=__modImpl()}a.cache.J=aa end return aa.c end end do local function __modImpl()
+return ah end function a.I():typeof(__modImpl())local aa=a.cache.I if not aa then aa={c=__modImpl()}a.cache.I=aa end return aa.c end end do local function __modImpl()
 
 local aa=a.d()
 local ac=aa.New
@@ -8055,7 +7862,7 @@ Update(ao.Value.Default,true)
 return ao.__type,ao
 end
 
-return ae end function a.K():typeof(__modImpl())local aa=a.cache.K if not aa then aa={c=__modImpl()}a.cache.K=aa end return aa.c end end do local function __modImpl()
+return ae end function a.J():typeof(__modImpl())local aa=a.cache.J if not aa then aa={c=__modImpl()}a.cache.J=aa end return aa.c end end do local function __modImpl()
 
 local aa=(cloneref or clonereference or function(aa)
 return aa
@@ -8255,7 +8062,7 @@ end)
 return ak.__type,ak
 end
 
-return ag end function a.L():typeof(__modImpl())local aa=a.cache.L if not aa then aa={c=__modImpl()}a.cache.L=aa end return aa.c end end do local function __modImpl()
+return ag end function a.K():typeof(__modImpl())local aa=a.cache.K if not aa then aa={c=__modImpl()}a.cache.K=aa end return aa.c end end do local function __modImpl()
 
 local aa=a.d()local ac=
 aa.New local ad=
@@ -8365,7 +8172,7 @@ end
 return aj.__type,aj
 end
 
-return ae end function a.M():typeof(__modImpl())local aa=a.cache.M if not aa then aa={c=__modImpl()}a.cache.M=aa end return aa.c end end do local function __modImpl()
+return ae end function a.L():typeof(__modImpl())local aa=a.cache.L if not aa then aa={c=__modImpl()}a.cache.L=aa end return aa.c end end do local function __modImpl()
 
 local aa=a.d()
 local ae=aa.New
@@ -8393,7 +8200,7 @@ ai
 return"Divider",{__type="Divider",ElementFrame=aj}
 end
 
-return af end function a.N():typeof(__modImpl())local aa=a.cache.N if not aa then aa={c=__modImpl()}a.cache.N=aa end return aa.c end end do local function __modImpl()
+return af end function a.M():typeof(__modImpl())local aa=a.cache.M if not aa then aa={c=__modImpl()}a.cache.M=aa end return aa.c end end do local function __modImpl()
 local aa={}
 
 local ae=(cloneref or clonereference or function(ae)
@@ -8942,7 +8749,7 @@ end
 
 RecalculateCanvasSize()
 RecalculateListSize()
-else a.N()
+else a.M()
 :New{Parent=ap.UIElements.Menu.Frame.ScrollingFrame}
 end
 end
@@ -9075,7 +8882,7 @@ UpdatePosition
 return as
 end
 
-return aa end function a.O():typeof(__modImpl())local aa=a.cache.O if not aa then aa={c=__modImpl()}a.cache.O=aa end return aa.c end end do local function __modImpl()
+return aa end function a.N():typeof(__modImpl())local aa=a.cache.N if not aa then aa={c=__modImpl()}a.cache.N=aa end return aa.c end end do local function __modImpl()
 
 local aa=(cloneref or clonereference or function(aa)
 return aa
@@ -9091,7 +8898,7 @@ af.Tween
 
 local ai=a.w().New local aj=a.n()
 .New
-local ak=a.O().New local al=
+local ak=a.N().New local al=
 
 workspace.CurrentCamera
 
@@ -9208,7 +9015,7 @@ end
 return ap.__type,ap
 end
 
-return am end function a.P():typeof(__modImpl())local aa=a.cache.P if not aa then aa={c=__modImpl()}a.cache.P=aa end return aa.c end end do local function __modImpl()
+return am end function a.O():typeof(__modImpl())local aa=a.cache.O if not aa then aa={c=__modImpl()}a.cache.O=aa end return aa.c end end do local function __modImpl()
 
 
 
@@ -9457,7 +9264,7 @@ end
 return table.concat(at)
 end
 
-return aa end function a.Q():typeof(__modImpl())local aa=a.cache.Q if not aa then aa={c=__modImpl()}a.cache.Q=aa end return aa.c end end do local function __modImpl()
+return aa end function a.P():typeof(__modImpl())local aa=a.cache.P if not aa then aa={c=__modImpl()}a.cache.P=aa end return aa.c end end do local function __modImpl()
 
 local aa={}
 
@@ -9465,7 +9272,7 @@ local af=a.d()
 local ag=af.New
 local ai=af.Tween
 
-local ak=a.Q()
+local ak=a.P()
 
 function aa.New(al,am,an,ao,ap)
 local aq={
@@ -9696,13 +9503,13 @@ end
 return aq
 end
 
-return aa end function a.R():typeof(__modImpl())local aa=a.cache.R if not aa then aa={c=__modImpl()}a.cache.R=aa end return aa.c end end do local function __modImpl()
+return aa end function a.Q():typeof(__modImpl())local aa=a.cache.Q if not aa then aa={c=__modImpl()}a.cache.Q=aa end return aa.c end end do local function __modImpl()
 
 local aa=a.d()local af=
 aa.New
 
 
-local ag=a.R()
+local ag=a.Q()
 
 local ai={}
 
@@ -9798,7 +9605,7 @@ am.ElementFrame=ao.CodeFrame
 return am.__type,am
 end
 
-return ai end function a.S():typeof(__modImpl())local aa=a.cache.S if not aa then aa={c=__modImpl()}a.cache.S=aa end return aa.c end end do local function __modImpl()
+return ai end function a.R():typeof(__modImpl())local aa=a.cache.R if not aa then aa={c=__modImpl()}a.cache.R=aa end return aa.c end end do local function __modImpl()
 
 local aa=a.d()
 local af=aa.New local ag=
@@ -10673,7 +10480,7 @@ end)
 return aw.__type,aw
 end
 
-return as end function a.T():typeof(__modImpl())local aa=a.cache.T if not aa then aa={c=__modImpl()}a.cache.T=aa end return aa.c end end do local function __modImpl()
+return as end function a.S():typeof(__modImpl())local aa=a.cache.S if not aa then aa={c=__modImpl()}a.cache.S=aa end return aa.c end end do local function __modImpl()
 
 local aa=a.d()
 local af=aa.New
@@ -11052,7 +10859,7 @@ end)
 return an.__type,an
 end
 
-return ak end function a.U():typeof(__modImpl())local aa=a.cache.U if not aa then aa={c=__modImpl()}a.cache.U=aa end return aa.c end end do local function __modImpl()
+return ak end function a.T():typeof(__modImpl())local aa=a.cache.T if not aa then aa={c=__modImpl()}a.cache.T=aa end return aa.c end end do local function __modImpl()
 
 local aa=a.d()
 local af=aa.New
@@ -11069,7 +10876,7 @@ BackgroundTransparency=1,
 return"Space",{__type="Space",ElementFrame=am}
 end
 
-return ai end function a.V():typeof(__modImpl())local aa=a.cache.V if not aa then aa={c=__modImpl()}a.cache.V=aa end return aa.c end end do local function __modImpl()
+return ai end function a.U():typeof(__modImpl())local aa=a.cache.U if not aa then aa={c=__modImpl()}a.cache.U=aa end return aa.c end end do local function __modImpl()
 local aa=a.d()
 local af=aa.New
 
@@ -11138,7 +10945,7 @@ end
 return am.__type,am
 end
 
-return ai end function a.W():typeof(__modImpl())local aa=a.cache.W if not aa then aa={c=__modImpl()}a.cache.W=aa end return aa.c end end do local function __modImpl()
+return ai end function a.V():typeof(__modImpl())local aa=a.cache.V if not aa then aa={c=__modImpl()}a.cache.V=aa end return aa.c end end do local function __modImpl()
 local aa=a.d()
 local af=aa.New
 
@@ -11223,7 +11030,7 @@ al.Tab
 return am.__type,am
 end
 
-return ai end function a.X():typeof(__modImpl())local aa=a.cache.X if not aa then aa={c=__modImpl()}a.cache.X=aa end return aa.c end end do local function __modImpl()
+return ai end function a.W():typeof(__modImpl())local aa=a.cache.W if not aa then aa={c=__modImpl()}a.cache.W=aa end return aa.c end end do local function __modImpl()
 local aa=a.d()
 local af=aa.New
 
@@ -11323,7 +11130,7 @@ end
 return am.__type,am
 end
 
-return ai end function a.Y():typeof(__modImpl())local aa=a.cache.Y if not aa then aa={c=__modImpl()}a.cache.Y=aa end return aa.c end end do local function __modImpl()
+return ai end function a.X():typeof(__modImpl())local aa=a.cache.X if not aa then aa={c=__modImpl()}a.cache.X=aa end return aa.c end end do local function __modImpl()
 
 local aa=a.d()
 local af=aa.New
@@ -11410,7 +11217,7 @@ al.Tab
 return am.__type,am
 end
 
-return ai end function a.Z():typeof(__modImpl())local aa=a.cache.Z if not aa then aa={c=__modImpl()}a.cache.Z=aa end return aa.c end end do local function __modImpl()
+return ai end function a.Y():typeof(__modImpl())local aa=a.cache.Y if not aa then aa={c=__modImpl()}a.cache.Y=aa end return aa.c end end do local function __modImpl()
 local aa=(cloneref or clonereference or function(aa)
 return aa
 end)
@@ -11646,29 +11453,28 @@ ao.Main=at
 return ao.__type,ao
 end
 
-return al end function a._():typeof(__modImpl())local aa=a.cache._ if not aa then aa={c=__modImpl()}a.cache._=aa end return aa.c end end do local function __modImpl()
+return al end function a.Z():typeof(__modImpl())local aa=a.cache.Z if not aa then aa={c=__modImpl()}a.cache.Z=aa end return aa.c end end do local function __modImpl()
 
 return{
 Elements={
 Paragraph=a.D(),
 Button=a.E(),
 Toggle=a.H(),
-TabBox=a.I(),
-Slider=a.J(),
-ProgressBar=a.K(),
-Keybind=a.L(),
-Input=a.M(),
-Dropdown=a.P(),
-Code=a.S(),
-Colorpicker=a.T(),
-Section=a.U(),
-Divider=a.N(),
-Space=a.V(),
-Image=a.W(),
-Group=a.X(),
-HStack=a.Y(),
-VStack=a.Z(),
-Viewport=a._(),
+Slider=a.I(),
+ProgressBar=a.J(),
+Keybind=a.K(),
+Input=a.L(),
+Dropdown=a.O(),
+Code=a.R(),
+Colorpicker=a.S(),
+Section=a.T(),
+Divider=a.M(),
+Space=a.U(),
+Image=a.V(),
+Group=a.W(),
+HStack=a.X(),
+VStack=a.Y(),
+Viewport=a.Z(),
 
 },
 Load=function(aa,af,ai,ak,al,am,an,ao,ap)
@@ -11797,7 +11603,7 @@ end
 end
 end
 end,
-}end function a.aa():typeof(__modImpl())local aa=a.cache.aa if not aa then aa={c=__modImpl()}a.cache.aa=aa end return aa.c end end do local function __modImpl()
+}end function a._():typeof(__modImpl())local aa=a.cache._ if not aa then aa={c=__modImpl()}a.cache._=aa end return aa.c end end do local function __modImpl()
 
 local aa=(cloneref or clonereference or function(aa)
 return aa
@@ -12251,7 +12057,7 @@ end
 
 
 
-local aA=a.aa()
+local aA=a._()
 
 aA.Load(
 ar,
@@ -12445,7 +12251,7 @@ ao.OnChangeFunc(aq)
 end
 end
 
-return ao end function a.ab():typeof(__modImpl())local aa=a.cache.ab if not aa then aa={c=__modImpl()}a.cache.ab=aa end return aa.c end end do local function __modImpl()
+return ao end function a.aa():typeof(__modImpl())local aa=a.cache.aa if not aa then aa={c=__modImpl()}a.cache.aa=aa end return aa.c end end do local function __modImpl()
 
 local aa={}
 
@@ -12454,7 +12260,7 @@ local af=a.d()
 local ai=af.New
 local ak=af.Tween
 
-local al=a.ab()
+local al=a.aa()
 
 function aa.New(am,an,ao,ap,aq)
 local ar={
@@ -12623,7 +12429,7 @@ return ar
 end
 
 
-return aa end function a.ac():typeof(__modImpl())local aa=a.cache.ac if not aa then aa={c=__modImpl()}a.cache.ac=aa end return aa.c end end do local function __modImpl()
+return aa end function a.ab():typeof(__modImpl())local aa=a.cache.ab if not aa then aa={c=__modImpl()}a.cache.ab=aa end return aa.c end end do local function __modImpl()
 return{
 Tab="table-of-contents",
 Paragraph="type",
@@ -12635,7 +12441,7 @@ Input="text-cursor-input",
 Dropdown="chevrons-up-down",
 Code="terminal",
 Colorpicker="palette",
-}end function a.ad():typeof(__modImpl())local aa=a.cache.ad if not aa then aa={c=__modImpl()}a.cache.ad=aa end return aa.c end end do local function __modImpl()
+}end function a.ac():typeof(__modImpl())local aa=a.cache.ac if not aa then aa={c=__modImpl()}a.cache.ac=aa end return aa.c end end do local function __modImpl()
 local aa=(cloneref or clonereference or function(aa)
 return aa
 end)
@@ -12659,7 +12465,7 @@ Radius=22,
 Width=400,
 MaxHeight=380,
 
-Icons=a.ad(),
+Icons=a.ac(),
 }
 
 local aq=ak("TextBox",{
@@ -13174,7 +12980,7 @@ end)
 return ap
 end
 
-return af end function a.ae():typeof(__modImpl())local aa=a.cache.ae if not aa then aa={c=__modImpl()}a.cache.ae=aa end return aa.c end end do local function __modImpl()
+return af end function a.ad():typeof(__modImpl())local aa=a.cache.ad if not aa then aa={c=__modImpl()}a.cache.ad=aa end return aa.c end end do local function __modImpl()
 
 
 
@@ -14850,8 +14656,8 @@ if aw.OpenButton and typeof(aw.OpenButton)=="table"then
 aw:EditOpenButton(aw.OpenButton)
 end
 
-local C=a.ab()
-local F=a.ac()
+local C=a.aa()
+local F=a.ab()
 local G=C.Init(aw,av.WindUI,av.WindUI.TooltipGui)
 G:OnChange(function(H)
 aw.CurrentTab=H
@@ -15308,7 +15114,7 @@ end)
 
 
 if not aw.HideSearchBar then
-local Q=a.ae()
+local Q=a.ad()
 local R=false
 
 
@@ -15397,7 +15203,7 @@ end
 
 
 return aw
-end end function a.af():typeof(__modImpl())local aa=a.cache.af if not aa then aa={c=__modImpl()}a.cache.af=aa end return aa.c end end end
+end end function a.ae():typeof(__modImpl())local aa=a.cache.ae if not aa then aa={c=__modImpl()}a.cache.ae=aa end return aa.c end end end
 
 local aa={
 Window=nil,
@@ -15704,7 +15510,7 @@ aa:SetTheme"Dark"
 aa:SetLanguage(as.Language)
 
 function aa.CreateWindow(az,aA)
-local aB=a.af()
+local aB=a.ae()
 
 if not am:IsStudio()and writefile then
 if not isfolder"WindUI"then
