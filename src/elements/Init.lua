@@ -3,6 +3,7 @@ return {
 		Paragraph = require("./Paragraph"),
 		Button = require("./Button"),
 		Toggle = require("./Toggle"),
+		TabBox = require("./TabBox"),
 		Slider = require("./Slider"),
 		ProgressBar = require("./ProgressBar"),
 		Keybind = require("./Keybind"),
