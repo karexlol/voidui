@@ -7171,6 +7171,7 @@ local af=TweenInfo.new(0.28,Enum.EasingStyle.Quint,Enum.EasingDirection.Out)
 
 function ae.New(ag,ah)
 ah.ParentConfig=ah
+ah.TextOffset=0
 
 local ai={
 __type="TabBox",

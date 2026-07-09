@@ -9,6 +9,7 @@ local FadeInfo = TweenInfo.new(0.28, Enum.EasingStyle.Quint, Enum.EasingDirectio
 
 function Element:New(ElementConfig)
 	ElementConfig.ParentConfig = ElementConfig
+	ElementConfig.TextOffset = 0
 
 	local TabBoxModule = {
 		__type = "TabBox",
