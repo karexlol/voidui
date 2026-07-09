@@ -7232,7 +7232,7 @@ BackgroundColor3="TabBox",
 },
 Parent=ak,
 },{
-ad("UICorner",{CornerRadius=ah.Window.ElementConfig.UICorner}),
+ad("UICorner",{CornerRadius=UDim.new(0,ah.Window.ElementConfig.UICorner)}),
 ad("UIPadding",{
 PaddingLeft=UDim.new(0,10),
 PaddingRight=UDim.new(0,10),
@@ -7252,7 +7252,7 @@ BackgroundTransparency=1,
 ZIndex=0,
 Parent=ap,
 },{
-ad("UICorner",{CornerRadius=ah.Window.ElementConfig.UICorner}),
+ad("UICorner",{CornerRadius=UDim.new(0,ah.Window.ElementConfig.UICorner)}),
 })
 
 AddIcon(ap,ao)
@@ -7345,7 +7345,6 @@ return ai.__type,ai
 end
 
 return ae end function a.I():typeof(__modImpl())local aa=a.cache.I if not aa then aa={c=__modImpl()}a.cache.I=aa end return aa.c end end do local function __modImpl()
-
 
 local aa=(cloneref or clonereference or function(aa)
 return aa

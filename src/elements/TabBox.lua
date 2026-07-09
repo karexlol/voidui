@@ -70,7 +70,7 @@ function Element:New(ElementConfig)
 			},
 			Parent = BoxesHolder,
 		}, {
-			New("UICorner", { CornerRadius = ElementConfig.Window.ElementConfig.UICorner }),
+			New("UICorner", { CornerRadius = UDim.new(0, ElementConfig.Window.ElementConfig.UICorner) }),
 			New("UIPadding", {
 				PaddingLeft = UDim.new(0, 10),
 				PaddingRight = UDim.new(0, 10),
@@ -90,7 +90,7 @@ function Element:New(ElementConfig)
 			ZIndex = 0,
 			Parent = Box,
 		}, {
-			New("UICorner", { CornerRadius = ElementConfig.Window.ElementConfig.UICorner }),
+			New("UICorner", { CornerRadius = UDim.new(0, ElementConfig.Window.ElementConfig.UICorner) }),
 		})
 
 		AddIcon(Box, Icon)
@@ -183,4 +183,3 @@ function Element:New(ElementConfig)
 end
 
 return Element
-
