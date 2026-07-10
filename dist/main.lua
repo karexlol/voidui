@@ -4,7 +4,7 @@
     | |/ |/ / / _ \/ _  / /_/ // /  
     |__/|__/_/_//_/\_,_/\____/___/
     
-    v1.6.65  |  2026-07-09  |  Roblox UI Library for scripts
+    v1.6.65  |  2026-07-10  |  Roblox UI Library for scripts
     
     To view the source code, see the `src/` folder on the official GitHub repository.
     
@@ -7185,7 +7185,7 @@ ak.UIElements.Main.ImageTransparency=1
 local al=ai.Window.ElementConfig.UICorner
 
 local am=ad("Frame",{
-Size=UDim2.new(1,0,0,30),
+Size=UDim2.new(1,0,0,34),
 BackgroundTransparency=1,
 Parent=ak.UIElements.Container,
 },{
@@ -7217,17 +7217,16 @@ ImageColor3="Text",
 },
 })
 else
-local ar=ac.Image(ap,ap,0,ai.Window.Folder,"TabBox",true,false)
+local ar=ac.Image(ap,ap,0,ai.Window.Folder,"Button",true,false)
 ar.Size=UDim2.new(0,16,0,16)
 ar.LayoutOrder=1
 ar.Parent=ao
-ak:Colorize(ar.ImageLabel,"ImageColor3")
 end
 end
 
 local function CreateBox(ao,ap,aq)
 local ar=ae(al,"Squircle",{
-Size=UDim2.new(0.5,-4,0,30),
+Size=UDim2.new(0.5,-4,0,34),
 LayoutOrder=ao,
 ClipsDescendants=true,
 ThemeTag={

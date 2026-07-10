@@ -23,7 +23,7 @@ function Element:New(ElementConfig)
 	local UICorner = ElementConfig.Window.ElementConfig.UICorner
 
 	local BoxesHolder = New("Frame", {
-		Size = UDim2.new(1, 0, 0, 30),
+		Size = UDim2.new(1, 0, 0, 34),
 		BackgroundTransparency = 1,
 		Parent = TabBoxFrame.UIElements.Container,
 	}, {
@@ -55,17 +55,16 @@ function Element:New(ElementConfig)
 				},
 			})
 		else
-			local IconObject = Creator.Image(Icon, Icon, 0, ElementConfig.Window.Folder, "TabBox", true, false)
+			local IconObject = Creator.Image(Icon, Icon, 0, ElementConfig.Window.Folder, "Button", true, false)
 			IconObject.Size = UDim2.new(0, 16, 0, 16)
 			IconObject.LayoutOrder = 1
 			IconObject.Parent = Parent
-			TabBoxFrame:Colorize(IconObject.ImageLabel, "ImageColor3")
 		end
 	end
 
 	local function CreateBox(Index, Title, Icon)
 		local Box = NewRoundFrame(UICorner, "Squircle", {
-			Size = UDim2.new(0.5, -4, 0, 30),
+			Size = UDim2.new(0.5, -4, 0, 34),
 			LayoutOrder = Index,
 			ClipsDescendants = true,
 			ThemeTag = {
