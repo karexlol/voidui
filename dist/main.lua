@@ -7171,7 +7171,7 @@ local af={}
 local ag=TweenInfo.new(0.28,Enum.EasingStyle.Quint,Enum.EasingDirection.Out)
 
 function af.New(ah,ai)
-print"[TabBox DEBUG] current file working- v3"
+print"[TabBox DEBUG] guncel dosya calisiyor - v3"
 ai.ParentConfig=ai
 ai.TextOffset=0
 
@@ -7289,6 +7289,13 @@ SortOrder="LayoutOrder",
 
 an[ao]={Button=ar,Overlay=as,Content=at}
 
+local au={}
+for av,aw in ipairs(ar:GetChildren())do
+table.insert(au,aw.ClassName..":"..aw.Name)
+end
+print("[TabBox DEBUG] Box#"..ao.." ("..ap..") children -> "..table.concat(au,", "))
+print("[TabBox DEBUG] Content#"..ao.." Visible="..tostring(at.Visible).." Parent="..tostring(at.Parent))
+
 return ar,at
 end
 
@@ -7314,6 +7321,8 @@ end
 local ap,aq=CreateBox(1,ai.LeftTitle or"Left",ai.LeftIcon)
 local ar,as=CreateBox(2,ai.RightTitle or"Right",ai.RightIcon)
 
+print("[TabBox DEBUG] LeftContent="..tostring(aq).." RightContent="..tostring(as))
+
 ac.AddSignal(ap.MouseButton1Click,function()
 SetActive(1)
 end)
@@ -7329,6 +7338,7 @@ return aj.__type,aj
 end
 
 return af end function a.I():typeof(__modImpl())local aa=a.cache.I if not aa then aa={c=__modImpl()}a.cache.I=aa end return aa.c end end do local function __modImpl()
+
 
 local aa=(cloneref or clonereference or function(aa)
 return aa

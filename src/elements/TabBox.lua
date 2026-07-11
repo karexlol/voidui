@@ -9,7 +9,7 @@ local Element = {}
 local FadeInfo = TweenInfo.new(0.28, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
 
 function Element:New(ElementConfig)
-	print("[TabBox DEBUG] current file working- v3")
+	print("[TabBox DEBUG] guncel dosya calisiyor - v3")
 	ElementConfig.ParentConfig = ElementConfig
 	ElementConfig.TextOffset = 0
 
@@ -127,6 +127,13 @@ function Element:New(ElementConfig)
 
 		Boxes[Index] = { Button = Box, Overlay = Overlay, Content = Content }
 
+		local childNames = {}
+		for _, child in ipairs(Box:GetChildren()) do
+			table.insert(childNames, child.ClassName .. ":" .. child.Name)
+		end
+		print("[TabBox DEBUG] Box#" .. Index .. " (" .. Title .. ") children -> " .. table.concat(childNames, ", "))
+		print("[TabBox DEBUG] Content#" .. Index .. " Visible=" .. tostring(Content.Visible) .. " Parent=" .. tostring(Content.Parent))
+
 		return Box, Content
 	end
 
@@ -152,6 +159,8 @@ function Element:New(ElementConfig)
 	local LeftButton, LeftContent = CreateBox(1, ElementConfig.LeftTitle or "Left", ElementConfig.LeftIcon)
 	local RightButton, RightContent = CreateBox(2, ElementConfig.RightTitle or "Right", ElementConfig.RightIcon)
 
+	print("[TabBox DEBUG] LeftContent=" .. tostring(LeftContent) .. " RightContent=" .. tostring(RightContent))
+
 	Creator.AddSignal(LeftButton.MouseButton1Click, function()
 		SetActive(1)
 	end)
@@ -167,3 +176,4 @@ function Element:New(ElementConfig)
 end
 
 return Element
+
