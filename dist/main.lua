@@ -4,7 +4,7 @@
     | |/ |/ / / _ \/ _  / /_/ // /  
     |__/|__/_/_//_/\_,_/\____/___/
     
-    v1.6.65  |  2026-07-10  |  Roblox UI Library for scripts
+    v1.6.65  |  2026-07-11  |  Roblox UI Library for scripts
     
     To view the source code, see the `src/` folder on the official GitHub repository.
     
@@ -7171,6 +7171,7 @@ local af={}
 local ag=TweenInfo.new(0.28,Enum.EasingStyle.Quint,Enum.EasingDirection.Out)
 
 function af.New(ah,ai)
+print"[TabBox DEBUG] current file working- v3"
 ai.ParentConfig=ai
 ai.TextOffset=0
 

@@ -9,6 +9,7 @@ local Element = {}
 local FadeInfo = TweenInfo.new(0.28, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
 
 function Element:New(ElementConfig)
+	print("[TabBox DEBUG] current file working- v3")
 	ElementConfig.ParentConfig = ElementConfig
 	ElementConfig.TextOffset = 0
 
